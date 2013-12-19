@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  	<link rel="stylesheet" href="style.css" type="text/css">
+  	<link rel="stylesheet" href="style.css" type="text/css" />
 	<title>Nowy wpis</title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
 </head>
@@ -24,9 +24,9 @@
 	
 	if(isset($_POST['send'])) 
 	{
-		$user_name	= trim($_POST["user_name"]);
+		$user_name	= htmlspecialchars(trim($_POST['user_name']), ENT_QUOTES);
 		$password	= md5(trim($_POST["user_password"]));
-		$content 	= trim($_POST["content"]);
+		$content 	= htmlspecialchars(trim($_POST['content']), ENT_QUOTES);
 		
 		if(str_len_between($user_name, 1, MAX) && strlen($content) > 0) // walidacja danych z formularza
 		{
@@ -101,7 +101,7 @@
 
 ?>
 	<div class="form_main">
-<form method="post" enctype="multipart/form-data">
+<form action='' method="post" enctype="multipart/form-data">
 
 
 	

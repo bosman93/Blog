@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<link rel="stylesheet" href="style.css" type="text/css">
+	<link rel="stylesheet" href="style.css" type="text/css" />
 	<title>Blog </title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
 </head>
@@ -39,7 +39,8 @@
 <?php //--wydruk-tabeli-dostepnych-blogow-----------------------------------
 	
 		foreach ($tab as $owner => $blog_name) {
-			$path = 'blog.php?nazwa='.$blog_name;
+;
+			$path = 'blog.php?nazwa='.str_replace(' ', '%20', $blog_name);
 			
 ?>
 
@@ -118,7 +119,9 @@
 
 <?php 
 						$j = 1; // wyszukanie wszystkich zalacznikow
-						for ($i=1; $i <= 3; $i++) {
+						for ($i=1; $i <= 3; $i++) 
+						{
+							// glob szuka plikow spelniajacych pattern
 							foreach (glob($file_path.$i.".*") as $uploaded_file) // wypisywanie hiperlaczy do zalacznikow
 							{
 								echo '<div class="file_class"><a href="'.$uploaded_file.'">Załącznik '.$j.'</a></div>';
@@ -133,7 +136,7 @@
 							$comments_counter = count($comm_list);
 						}
 						
-						echo "<a class='comm_ref' href='koment.php?blog=$blog_name&amp;id=$filename'/> Dodaj komentarz </a>";
+						echo "<a class='comm_ref' href='koment.php?blog=$blog_name&amp;id=$filename'> Dodaj komentarz </a>";
 						if($comments_counter == 0)
 						{
 							echo "<h5> Nie dodano jeszcze żadnych komentarzy! Bądź pierwszy!</h5>";
@@ -158,10 +161,10 @@
 <?php 
 											
 							} // koniec wypisywania dla komentarzy
-?>
-	</div>
-<?php 
 						}
+?>
+		</div>
+<?php 
 					} // koniec obslugi pojedynczego wpisu
 				} // petla - dla kazdego wpisu	
 			}

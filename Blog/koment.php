@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  	<link rel="stylesheet" href="style.css" type="text/css">
+  	<link rel="stylesheet" href="style.css" type="text/css" />
 	<title>Nowy komentarz</title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
 </head>
@@ -29,8 +29,8 @@
 			$entry_name = $_GET['id'];
 			$kom_dir =  'blogs_data'.DIR_SEP.$blog_name.DIR_SEP.$entry_name.'.k'; // sciezka do folderu z komentarzami
 			
-			$nick = trim($_POST['nick']);
-			$post = trim($_POST['content']);
+			$nick = htmlspecialchars(trim($_POST['nick']), ENT_QUOTES);
+			$post = htmlspecialchars(trim($_POST['content']), ENT_QUOTES);
 			
 			if(str_len_between($nick, 1, MAX) && strlen($post) > 0)
 			{			
@@ -47,7 +47,8 @@
 				$text = implode( PHP_EOL, array($_POST['type'],  date("Y-m-d",time()).','.date("H:i:s",time()), $nick, $post) );
 				@file_put_contents($kom_dir.DIR_SEP.$i , $text, LOCK_EX );
 				
-				$message = 'Dodano komentarz.';
+				$blog_name = str_replace(' ', '%20', $blog_name);
+				$message = 'Dodano komentarz.<br/><a href=blog.php?nazwa='.$blog_name.'>Powrót</a>';
 			}
 			else
 			{
@@ -62,7 +63,7 @@
 	
 ?>
 	<div class="form_main">
-<form method="post">
+<form action='' method="post">
 
 	
 		<div class="form_field">
@@ -89,7 +90,7 @@
 					Pozytywny
 				</option>
 				
-				<option label="none" value="neutral" selected="selected" >
+				<option label="neutral" value="neutral" selected="selected" >
 					Neutralny
 				</option>
 				
