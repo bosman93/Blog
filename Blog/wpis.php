@@ -3,15 +3,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  	<link rel="stylesheet" href="style.css" type="text/css" />
+  	<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Główny"/>
+	<link rel="alternate stylesheet" href="alternative.css" type="text/css" media="screen" title="Alternatywny"/>
+
 	<title>Nowy wpis</title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
+    
+	<script src="walidacja_czasu.js" type="text/JavaScript" > </script>
+    <script src="wybor_styli.js" type="text/JavaScript" > </script>
+	<script type="text/JavaScript">
+		window.onload = function(){ 
+			setInitValues(); 
+			styleInit()
+		};
+	</script>
 </head>
 
 <body>
 <div class="header">
 	<strong>Dodaj wpis</strong>
 </div>
+
+    <div id="style"></div>
+    <script type="text/JavaScript">
+		addStyleSelector(getStyleList());
+	</script>
 <div class="main">
 
 <?php	
@@ -55,8 +71,8 @@
 					
 					$file_path = $blog_dir.DIR_SEP.$date.$time;			// utworzenie pierwszej czesci nazwy pliku
 					
-					$identifier = 0;						// identyfikator (gdy w tym samym czasie powstanie kilka plikow
-					while(file_exists($file_path.$identifier)) // jesli istnieje plik o zadanym id - zwieksz identifier
+					$identifier = 0;							// identyfikator (gdy w tym samym czasie powstanie kilka plikow
+					while(file_exists($file_path.$identifier)) 	// jesli istnieje plik o zadanym id - zwieksz identifier
 					{						
 						$identifier += 1;
 					}	
@@ -78,7 +94,7 @@
 							
 							$target_path = $file_path.$identifier.$i.'.'.$extention; // utworzenie sciezki
 							move_uploaded_file($_FILES['file_'.$i]['tmp_name'], $target_path); // zapis na serwerze
-							chmod ( $target_path , 0777 );
+							chmod ( $target_path , 0755 );
 						}	
 					}
 					$message = 'Dodano wpis.';
@@ -101,69 +117,48 @@
 
 ?>
 	<div class="form_main">
-<form action='' method="post" enctype="multipart/form-data">
+    
 
+    
+<form action='' method="post" enctype="multipart/form-data" name="formularz">
 
-	
 		<div class="form_field">
-		
 			<div class="form_caption">Nazwa użytkownika: </div>
-			<input type="text" name="user_name" 
-				maxlength="<?php echo MAX ?>" size="<?php echo MAX + 3 ?>" />
-			
+			<input type="text" name="user_name"	maxlength="<?php echo MAX ?>" size="<?php echo MAX + 3 ?>" />
 		</div>
 
 		<div class="form_field">
-		
 			<div class="form_caption">Hasło:  </div>
-			<input type="password" name="user_password"
-				maxlength="<?php echo MAX ?>" size="<?php echo MAX + 3 ?>" />
-				
+			<input type="password" name="user_password"	maxlength="<?php echo MAX ?>" size="<?php echo MAX + 3 ?>" />	
 		</div>
 		
 		<div class="form_field">
-		
 			<div class="form_caption">Treść: </div>
 			<textarea rows="10" cols="40" name="content"></textarea>
-			
-		</div>
+		</div> 
 		
 		<div class="form_field">
-		
 			<div class="form_caption">Data: </div>
-			<input type="text" name="date" value="<?php echo date("Y-m-d",time())?>" readonly="readonly" tabindex="-1"  />
-			
+			<input type="text" name="date" onchange="dateChange(event)"  value="getCurrentDate()"  tabindex="-1"  />
 		</div>
 		
 		<div class="form_field"> 
-		
 			<div class="form_caption">Godzina: </div>
-			<input type="text" name="time" value="<?php echo date("H:i",time())?>" readonly="readonly" tabindex="-1"  /> 
-			
-						
+			<input type="text" name="time"  onchange="timeChange(event)" value="getCurrentTime()"  tabindex="-1"  /> 			
 		</div>
 		
 		<div class="form_field">
-		
 			<div class="form_caption">Załączniki: </div>
-
-					<input type="file" name="file_1"  />  <br/>
-
-					<input type="file" name="file_2"  /> <br/>
-
-					 <input type="file" name="file_3"  /> <br/>
-
-				
+			<input type="file" name="file_1"  />  <br/>
+			<input type="file" name="file_2"  /> <br/>
+			<input type="file" name="file_3"  /> <br/>
 		</div>
-		
 		<div class="form_field_buttons">
 		
 			<input type="submit" name="send" value="Dodaj"/>	
 			<input type="reset" name="clear" value="Wyczyść"/>
 					
 		</div>
-
-
 </form>
 
 	<?php echo "<br/>".$message;?>

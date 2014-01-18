@@ -3,9 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  	<link rel="stylesheet" href="style.css" type="text/css" />
+  	<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Główny"/>
+	<link rel="alternate stylesheet" href="alternative.css" type="text/css" media="screen" title="Alternatywny"/>
 	<title>Nowy blog</title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
+    <script src="wybor_styli.js" type="text/JavaScript" > </script>
+	<script type="text/JavaScript">
+		window.onload = function(){ 
+			styleInit();
+		};
+	</script>
 </head>
 
 <body>
@@ -13,6 +20,11 @@
 	<div class="header">
 		<strong>Stwórz własnego bloga</strong>
 	</div>
+    
+        <div id="style"></div>
+    <script type="text/JavaScript">
+		addStyleSelector(getStyleList());
+	</script>
 	
 
 <?php
@@ -55,8 +67,6 @@
 <div class="form_main">
 <form action='' method="post"> 
 
-
-	
 		<div class="form_field">
 		
 			<div class="form_caption">Nazwa bloga: </div>			

@@ -1,18 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<link rel="stylesheet" href="style.css" type="text/css" />
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Główny"/>
+	<link rel="alternate stylesheet" href="alternative.css" type="text/css" media="screen" title="Alternatywny"/>
 	<title>Blog </title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
+    
+    <script src="wybor_styli.js" type="text/JavaScript" > </script>
+	<script type="text/JavaScript">
+		window.onload = function(){ 
+			styleInit();
+		};
+	</script>
+    
 </head>
 
 <body>
 
 <div class="main">
+
 <?php 
 	require 'general_functions.php';
+	error_reporting(0);
 
 	$blog_names_file = explode(PHP_EOL, file_get_contents('blogs_data'.DIR_SEP.'log', LOCK_SH));
 
@@ -31,15 +42,20 @@
 	<div class="header">
 		<strong>Dostępne blogi</strong>
 	</div>
+    
+        <div id="style"></div>
+    <script type="text/JavaScript">
+		addStyleSelector(getStyleList());
+	</script>
 	
 <?php require 'menu.php';?>
 	
 	<div class="entry">
 	<table>
-<?php //--wydruk-tabeli-dostepnych-blogow-----------------------------------
+<?php 	//--wydruk-tabeli-dostepnych-blogow-----------------------------------
 	
 		foreach ($tab as $owner => $blog_name) {
-;
+							
 			$path = 'blog.php?nazwa='.str_replace(' ', '%20', $blog_name);
 			
 ?>
@@ -57,7 +73,7 @@
 
 	</div>
 	
-<?php //--------------------------------------------------------------------
+<?php 	//--------------------------------------------------------------------
 	}
 	else	// wykonaj jesli przeslano 'nazwa'
 	{
@@ -68,9 +84,13 @@
 		{
 
 ?> 
-	<div class="header">									<!--Nagłówek strony-->
+	<div class="header">								<!--Nagłówek strony-->
 		<strong><?php echo $blog_name; ?></strong>
 	</div>
+            <div id="style"></div>
+    <script type="text/JavaScript">
+		addStyleSelector(getStyleList());
+	</script>
 	
 	<div class="blog_header">
 		<strong>Autor: <?php echo $author;?></strong>	<!--Autor i opis blogu-->
@@ -88,8 +108,8 @@
 
 			require 'menu.php';
 		
-			$files = scandir('blogs_data'.DIR_SEP.$blog_name);  // wylistowanie wszystkich plikow w folderze blogu
-			$files = array_diff($files, array('info', '.', '..')); // wykluczenie pliku info oraz . i ..
+			$files = scandir('blogs_data'.DIR_SEP.$blog_name);  	// wylistowanie wszystkich plikow w folderze blogu
+			$files = array_diff($files, array('info', '.', '..')); 	// wykluczenie pliku info oraz . i ..
 			
 			if(empty($files))	// brak innych plikow == brak wpisow
 			{
@@ -97,16 +117,16 @@
 			}
 			else 
 			{
-				$files = array_reverse($files);	// odwrocenie listy (najnowsze wpisy na gorze strony)
+				$files = array_reverse($files);		// odwrocenie listy (najnowsze wpisy na gorze strony)
 				
-				foreach($files as $filename) // obsluga kazdego wpisu
+				foreach($files as $filename) 		// obsluga kazdego wpisu
 				{
 					$file_path = 'blogs_data'.DIR_SEP.$blog_name.DIR_SEP.$filename;	// aktualizacja sciezki do obecnego pliku
 
-					if(!is_dir($file_path) && strlen($filename)==16)	// jesli nie jest folderem i jest zgodny z szablonem
+					if(!is_dir($file_path) && strlen($filename)==16)				// jesli nie jest folderem i jest zgodny z szablonem
 					{
 						$file_content = explode(PHP_EOL, file_get_contents($file_path, LOCK_SH)); // wydobycie daty z nazwy pliku
-						$temp = str_split($filename, 2);						// podzial stringu na czesci po 2 znaki
+						$temp = str_split($filename, 2);										  // podzial stringu na czesci po 2 znaki
 						
 						$date = $temp[0].$temp[1].'-'.$temp[2].'-'.$temp[3]; 	// sklejenie sformatowanej daty z powstalych czesci
 						$time = $temp[4].':'.$temp[5];
@@ -118,19 +138,20 @@
 		<p> <?php echo $file_content[0]; ?></p> 				<!--tresc wpisu-->
 
 <?php 
-						$j = 1; // wyszukanie wszystkich zalacznikow
+						$j = 1; 										// wyszukanie wszystkich zalacznikow
 						for ($i=1; $i <= 3; $i++) 
 						{
 							// glob szuka plikow spelniajacych pattern
-							foreach (glob($file_path.$i.".*") as $uploaded_file) // wypisywanie hiperlaczy do zalacznikow
+
+							foreach (glob($file_path.$i.".*") as $uploaded_file) 	// wypisywanie hiperlaczy do zalacznikow
 							{
 								echo '<div class="file_class"><a href="'.$uploaded_file.'">Załącznik '.$j.'</a></div>';
 								$j += 1;
 							}
 						}
 					
-						$comments_counter = 0;	// licznik komentarzy
-						if(file_exists($file_path.'.k')) // sprawdzenie istnienia jakichkolwiek komentarzy do wpisu
+						$comments_counter = 0;				// licznik komentarzy
+						if(file_exists($file_path.'.k')) 	// sprawdzenie istnienia jakichkolwiek komentarzy do wpisu
 						{
 							$comm_list = array_diff(scandir($file_path.'.k'), array('.', '..')); // lista folderow komentarzy
 							$comments_counter = count($comm_list);
@@ -166,10 +187,10 @@
 		</div>
 <?php 
 					} // koniec obslugi pojedynczego wpisu
-				} // petla - dla kazdego wpisu	
+				} 	// petla - dla kazdego wpisu	
 			}
 		}
-		else // jesli nie istnieje blog o zadanej nazwie 
+		else 	// jesli nie istnieje blog o zadanej nazwie 
 		{ 
 			echo '<div class="entry">Blog o nazwie '.$_GET['nazwa'].' nie istnieje.</div>';
 			require 'menu.php';
