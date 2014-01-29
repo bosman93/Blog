@@ -1,0 +1,25 @@
+w head :
+<script type="text/javascript" src="komunikator.js" > </script>
+
+w dobrym miejscu w blog.php:
+<?php include ('komunikator.html'); ?>
+
+css:
+#komunikator textarea{
+	width:100%;
+	background-color: #ccc;
+	border:1px solid #aaa;
+}
+#komunikator textarea:hover{
+	border:1px solid #7BBAE8;
+}
+#komunikator input{
+	background-color: #ccc;
+	border:1px solid #aaa;
+}
+#komunikator input:hover{
+	border:1px solid #7BBAE8;
+}
+
+pozmieniaj (jesli masz inaczej):
+$path = 'blogi'.s.$_GET['blog'].s.'komunikator';
