@@ -115,3 +115,46 @@
 		text-decoration: none;
 	}
 	
+	#komunikator{
+		font-size: 11pt;
+		padding: 20px 20px 20px 20px;
+		max-width: 400px;
+		text-align:left;
+		margin: auto;
+		margin-top:50px;  
+		height: auto; 
+		border:solid 1px;
+		background-color: #E6F0FA;
+		border-radius: 10px;  
+	}
+	
+	#komunikator textarea{
+		display:block;	
+		width:100%;
+		background-color: #ccc;
+		border:1px solid #aaa;
+	}
+	
+	#komunikator textarea:hover{
+		border:1px solid #7BBAE8;
+	}
+	
+	#komunikator input{
+		background-color: #ccc;
+		border:1px solid #aaa;
+	}
+	
+	#komunikator input:hover{
+		border:1px solid #7BBAE8;
+	}
+	
+	#file_list{
+		display:block;
+		padding: 20px 20px 20px 20px;
+		margin-left:15%;
+	}
+	
+	input.flie_list_elem { 
+		display:block;
+	}
+	

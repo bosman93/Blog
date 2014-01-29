@@ -3,10 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+
+	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
   	<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Główny"/>
 	<link rel="alternate stylesheet" href="alternative.css" type="text/css" media="screen" title="Alternatywny"/>
 	<title>Nowy komentarz</title>
-	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
+
     <script src="wybor_styli.js" type="text/JavaScript" > </script>
 	<script type="text/JavaScript">
 		window.onload = function(){ 
@@ -75,9 +77,6 @@
 ?>
 	<div class="form_main">
         <div id="style"></div>
-    <script type="text/JavaScript">
-		addStyleSelector(getStyleList());
-	</script>
 <form action='' method="post">
 
 	

@@ -60,7 +60,7 @@ function styleInit() { // wybor stylu na podstawie ciasteczka
 	var lastStyleID = getCookie();
 	
 	disableAll();
-	if (lastStyleID != "") //jesli nie jest puste
+	if ((lastStyleID != "" )&& (typeof(list[lastStyleID]) != 'undefined')) //jesli nie jest puste
   	{
   		list[lastStyleID].disabled = false; // ustaw poprzedni styl jako aktywny
   	}

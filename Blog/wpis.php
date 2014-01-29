@@ -3,13 +3,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+
+	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
   	<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Główny"/>
 	<link rel="alternate stylesheet" href="alternative.css" type="text/css" media="screen" title="Alternatywny"/>
 
 	<title>Nowy wpis</title>
-	<meta http-equiv="Content-Type" content="application/xhtml+xml;	charset=UTF-8"/>
     
 	<script src="walidacja_czasu.js" type="text/JavaScript" > </script>
+    <script src="files.js" type="text/JavaScript" > </script>
     <script src="wybor_styli.js" type="text/JavaScript" > </script>
 	<script type="text/JavaScript">
 		window.onload = function(){ 
@@ -84,17 +86,18 @@
 
 					
 					// zapis zauploadowanych plikow na serwerze
-				
-					for( $i = 1; $i <= 3; $i++)
-					{
+					$file_counter = 1;
+					for( $i = 1; $i <= count($_FILES); $i++)
+					{						
 						if (!empty($_FILES['file_'.$i]['name'])) 
 						{
 							$pathinfo = pathinfo($_FILES['file_'.$i]['name']);
-							$extention = $pathinfo['extension'];		// wydobycie rozszerzenia pliku
+							$extension = $pathinfo['extension'];		// wydobycie rozszerzenia pliku
 							
-							$target_path = $file_path.$identifier.$i.'.'.$extention; // utworzenie sciezki
+							$target_path = $file_path.$identifier.$file_counter.'.'.$extension; // utworzenie sciezki
 							move_uploaded_file($_FILES['file_'.$i]['tmp_name'], $target_path); // zapis na serwerze
 							chmod ( $target_path , 0755 );
+							$file_counter++;
 						}	
 					}
 					$message = 'Dodano wpis.';
@@ -149,9 +152,12 @@
 		
 		<div class="form_field">
 			<div class="form_caption">Załączniki: </div>
-			<input type="file" name="file_1"  />  <br/>
-			<input type="file" name="file_2"  /> <br/>
-			<input type="file" name="file_3"  /> <br/>
+			<div id="file_list" >
+    	        <input type="file" name="file_1" class="flie_list_elem"/>
+            </div>
+            <div>
+	            <input type="button" name="add_file" value="Dodaj kolejny plik" onclick="newFileFormButton()"/>
+            </div>
 		</div>
 		<div class="form_field_buttons">
 		
